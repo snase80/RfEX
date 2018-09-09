@@ -6,3 +6,4 @@
 *.Rproj
 remark.js
 libs*
+.tmp.drivedownload
