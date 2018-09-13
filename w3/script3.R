@@ -19,6 +19,13 @@ fac
 # FIRST CAST TO CHARACTER, THEN TO NUMERIC
 fac %>% as.character() %>% as.numeric()
 
+# LEVELS + ORDERED
+levels(fac)
+levels(fac) = c("M", "F", "U")
+fac
+
+ordered(fac, c("U", "F", "M"))
+
 # 2.) FUN WITH DATETIMES --------------------------------------------------
 now = Sys.time() # value
 now %<>% as.POSIXlt() # list?
@@ -29,7 +36,22 @@ now$hour
 now$wday
 now$yday
 
-# 3.) DATA.FRAMES BASICS ------------------------------------------------------
+# 3.) FUN WITH CASTING
+c(T, NA) # boolean
+c(T, NA, 1) # numeric
+c(F, 258) # numeric
+
+sum(c(T, T, T, F, T)) # casted into numeric
+T * 25 + F * 10 # casted into numeric
+
+Sys.Date() + 5 # simple adding of days (lowest unit of class Date)
+Sys.time() + 120 # simple adding of seconds (lowest unit of class POSIX)
+
+Sys.time() - as.numeric(Sys.time()) # 1970-01-01 00:00:00 UTC
+
+c(factor(c("A","B","C")),"B") # brainfuck
+
+# 4.) DATA.FRAMES BASICS ------------------------------------------------------
 # PACKAGES
 library(tidyverse)
 
