@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lecture 4</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Michal Kubišta" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Lecture 4
+### Michal Kubišta
+### 2018/10/17
+
+---
+
+
+## Structure
+- Import &amp; Export
+- Aggregation &amp; Mutation
+
+
+---
+class: middle, inverse
+
+# Import &amp; Export
+
+---
+class: middle, inverse
+
+# Mutation &amp; Aggregation
+
+---
+
+## Mutation
+- ading new or changing existing columns
+
+```r
+econ =
+    readxl::read_excel("data/econmap.xlsx", 1) %&gt;%
+    select(name, year, gdp_cap, energy_productivity, population, labor_force, tfp)
+head(econ)
+```
+
+```
+## # A tibble: 6 x 7
+##   name         year gdp_cap energy_productiv~ population labor_force   tfp
+##   &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 Afghanistan  1980    974.             1467.     13180.       4115.  116.
+## 2 Afghanistan  1981   1018.             1321.     12964.       4025.  120.
+## 3 Afghanistan  1982   1053.             1291.     12634.       3905.  122.
+## 4 Afghanistan  1983   1140.             1143.     12242.       3769.  130.
+## 5 Afghanistan  1984   1199.             1176.     11854.       3636.  134.
+## 6 Afghanistan  1985   1236.             1221.     11529.       3517.  135.
+```
+
+---
+
+## Mutation in baseR
+- ading new or changing existing columns
+
+```r
+econ$region = ifelse(econ$name == "Afghanistan", "Afghan", "Others") # base R
+head(econ)
+```
+
+```
+## # A tibble: 6 x 8
+##   name   year gdp_cap energy_producti~ population labor_force   tfp region
+##   &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+## 1 Afgh~  1980    974.            1467.     13180.       4115.  116. Afghan
+## 2 Afgh~  1981   1018.            1321.     12964.       4025.  120. Afghan
+## 3 Afgh~  1982   1053.            1291.     12634.       3905.  122. Afghan
+## 4 Afgh~  1983   1140.            1143.     12242.       3769.  130. Afghan
+## 5 Afgh~  1984   1199.            1176.     11854.       3636.  134. Afghan
+## 6 Afgh~  1985   1236.            1221.     11529.       3517.  135. Afghan
+```
+
+```r
+econ$region = NULL # erase column
+colnames(econ)
+```
+
+```
+## [1] "name"                "year"                "gdp_cap"            
+## [4] "energy_productivity" "population"          "labor_force"        
+## [7] "tfp"
+```
+
+---
+
+## Mutation in Tidyverse
+- ading new or changing existing columns
+
+
+```r
+econ %&gt;%
+    mutate(region = ifelse(name == "Afghanistan", "Afghan", "Others"),
+           tfp = NULL)
+```
+
+```
+## # A tibble: 1,452 x 7
+##    name       year gdp_cap energy_productiv~ population labor_force region
+##    &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt; 
+##  1 Afghanis~  1980    974.             1467.     13180.       4115. Afghan
+##  2 Afghanis~  1981   1018.             1321.     12964.       4025. Afghan
+##  3 Afghanis~  1982   1053.             1291.     12634.       3905. Afghan
+##  4 Afghanis~  1983   1140.             1143.     12242.       3769. Afghan
+##  5 Afghanis~  1984   1199.             1176.     11854.       3636. Afghan
+##  6 Afghanis~  1985   1236.             1221.     11529.       3517. Afghan
+##  7 Afghanis~  1986   1303.             1437.     11262.       3428. Afghan
+##  8 Afghanis~  1987   1190.              663.     11063.       3369  Afghan
+##  9 Afghanis~  1988   1097.              310.     11013.       3356. Afghan
+## 10 Afghanis~  1989   1001.              275.     11215.       3410. Afghan
+## # ... with 1,442 more rows
+```
+
+
+
+---
+
+## Aggregation
+- calculate function by group
+
+
+```r
+econ %&gt;% 
+    group_by(name) %&gt;% 
+    summarise(gdp = mean(gdp_cap),
+              energy = sum(energy_productivity)
+              )
+```
+
+```
+## # A tibble: 12 x 3
+##    name            gdp  energy
+##    &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Afghanistan   5445. 140496.
+##  2 Albania      62660. 173414.
+##  3 Algeria      12243.  74240.
+##  4 Angola       22939.  61978.
+##  5 Argentina    36793.  89449.
+##  6 Armenia      98248.  88286.
+##  7 Australia    67553. 256290.
+##  8 Austria      59889. 436950.
+##  9 Azerbaijan   96707.     NA 
+## 10 Bahamas, The 47685. 152604.
+## 11 Bahrain      31303.  39337.
+## 12 Bangladesh    6341.  85363.
+```
+
+---
+
+## Aggregation on multi-index
+
+
+```r
+econ %&gt;% 
+    group_by(region, year) %&gt;% 
+    summarise(pop = mean(population),
+              labor = mean(labor_force)) %&gt;% 
+    mutate(active = labor / pop)
+```
+
+```
+## # A tibble: 242 x 5
+## # Groups:   region [2]
+##    region  year    pop labor active
+##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Afghan  1980 13180. 4115.  0.312
+##  2 Afghan  1981 12964. 4025.  0.311
+##  3 Afghan  1982 12634. 3905.  0.309
+##  4 Afghan  1983 12242. 3769.  0.308
+##  5 Afghan  1984 11854. 3636.  0.307
+##  6 Afghan  1985 11529. 3517.  0.305
+##  7 Afghan  1986 11262. 3428.  0.304
+##  8 Afghan  1987 11063. 3369   0.305
+##  9 Afghan  1988 11013. 3356.  0.305
+## 10 Afghan  1989 11215. 3410.  0.304
+## # ... with 232 more rows
+```
+    </textarea>
+<script src="../remark.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

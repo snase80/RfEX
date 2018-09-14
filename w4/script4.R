@@ -1,3 +1,4 @@
+library(magrittr)
 library(tidyverse)
 
 
@@ -79,3 +80,84 @@ saveRDS(rds, file = "w4/data/london.RDS")
 # XLS
 library(writexl)
 write_xlsx(xls, "w4/data/econmap.xlsx")
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############ MUTATE & AGGREGATE #############
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+list.files("w4/data")
+rm(list = ls())
+
+sales = read_csv("w4/data/sales_data_sample.csv")
+# https://toolbox.google.com/datasetsearch/search?query=sales&docid=1%2BevukXLxiyX4xlWAAAAAA%3D%3D
+head(sales)
+summary(sales)
+
+
+# REGIONS -----------------------------------------------------------------
+sales %>% 
+    pull(TERRITORY) %>% 
+    unique()
+
+# what are the countries with no region value (NA)?
+na_territory = 
+    sales %>% 
+    filter(is.na(TERRITORY)) %>% 
+    pull(COUNTRY) %>% 
+    unique()
+na_territory
+
+# are all of those countries without region?
+sales %>% 
+    filter(COUNTRY %in% na_territory) %>% 
+    pull(TERRITORY) %>% 
+    unique()
+
+# let's fill in the missing values
+sales %<>% 
+    mutate(TERRITORY = ifelse(COUNTRY %in% na_territory, "AMER", TERRITORY))
+
+# SALES DECOMPOSITION PER TERRITORY ---------------------------------------
+# what is the customer behaviour per territory?
+sales %>% 
+    group_by(TERRITORY, ORDERNUMBER) %>% 
+    summarise(basket = sum(QUANTITYORDERED),
+              price = mean(PRICEEACH)) %>% 
+    ungroup() %>% 
+    group_by(TERRITORY) %>% 
+    summarise(basket = mean(basket),
+              price = mean(price),
+              visits = length(ORDERNUMBER))
+
+# SALES PER YEAR ----------------------------------------------------------
+# the first overvie, what are the sales each year?
+sales %>% 
+    group_by(YEAR_ID) %>% 
+    summarise(sales = sum(SALES))
+
+# how come the year 2005 has such a low sales?
+sales %>% 
+    filter(YEAR_ID == "2005") %>% 
+    pull(MONTH_ID) %>% 
+    unique()
+
+# what is the usual sales share in the first 5 months?
+sales %>% 
+    group_by(YEAR_ID, MONTH_ID) %>% 
+    summarise(sales = sum(SALES)) %>% 
+    ungroup() %>% 
+    mutate(first5 = ifelse(MONTH_ID <= 5, 1, 0)) %>% 
+    group_by(YEAR_ID, first5) %>% 
+    summarise(sales = sum(sales)) %>% 
+    ungroup() %>% 
+    group_by(YEAR_ID) %>% 
+    summarise(sales_shr = sum(first5 * sales) / sum(sales))
+
+# what is the projection for 2010?
+sales %>% 
+    group_by(YEAR_ID) %>% 
+    summarise(sales = sum(SALES)) %>%
+    mutate(sales = ifelse(YEAR_ID == "2005", sales / 0.25, sales))
+
+
+    
