@@ -1,0 +1,118 @@
+---
+title: "Lecture 5"
+author: "Michal Kubišta"
+date: "2018/10/24"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    chakra: ../remark.js
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+## Structure
+- Casting
+- Binding
+- Joins
+```{r setup, include = FALSE}
+library(tidyverse)
+```
+
+---
+class: middle, inverse
+
+# Casting
+
+---
+
+## Gather
+- collect several columns into key-value based (two) columns
+
+```{r gather_setup}
+cars = 
+    mtcars[1:5,] %>% 
+    mutate(name = rownames(.)) %>% 
+    select(name, mpg, cyl, disp)
+cars
+
+```
+
+---
+
+## Gather
+- collect several columns into key-value based (two) columns
+
+```{r gather}
+cars_g = 
+    cars %>% 
+    gather(fact, value, mpg, cyl, disp)
+cars_g
+```
+
+---
+
+## Spread
+- inverse of gather
+- spread key-value columns into several columns
+
+```{r spread}
+cars_g %>% 
+    spread(fact, value)
+```
+
+---
+class: middle, inverse
+
+# Binding
+
+---
+
+## Rbind
+- bind rows
+- two tables of the same variables
+
+```{r rbind_setup}
+(cars_a = cars[1:3,])
+(cars_b = cars[4:5,])
+```
+
+---
+
+## Rbind
+- glue rows of tables
+- two tables of the same variables (same columns)
+
+```{r rbind}
+rbind(cars_a, cars_b)
+```
+
+---
+
+## Cbind
+- glue columns of tables
+- two tables of the same observation (same row)
+
+```{r cbind_setup}
+(cars_a = cars %>% select(name, mpg))
+(cars_b = cars %>% select(cyl, disp))
+```
+
+---
+
+## Cbind
+- glue columns of tables
+- two tables of the same observation (same row)
+
+```{r cbind}
+cbind(cars_a, cars_b)
+```
+
+---
+
+class: middle, inverse
+
+# Joins
+
+---
