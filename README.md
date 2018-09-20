@@ -7,7 +7,7 @@ The list of topics follows bellow:
 3. Filtering & selection
 4. Data import & export, mutation, aggregation
 5. Casting, binding & joins
-6. Loops & logic statements, functions
+6. Loops & vectorisation, conditionals, functions
 7. Regex, string functions
 8. Data cleaning
 9. Visualisation basic & ggplot
