@@ -113,8 +113,8 @@ class: middle, inverse
 ---
 
 ## Rbind
-- bind rows
-- two tables of the same variables
+- glue rows of tables
+- two tables of the same variables (same columns)
 
 
 ```r
@@ -210,6 +210,74 @@ cbind(cars_a, cars_b)
 ## 4    Hornet 4 Drive 21.4   6  258
 ## 5 Hornet Sportabout 18.7   8  360
 ```
+
+---
+
+class: middle, inverse
+
+# Joins
+
+---
+
+# Logic of joins
+- like excel's vlookup (svyhledat)
+- joins are based on index (key)
+
+.pull-left[
+
+```r
+(df_a = data.frame(id = 1:3,
+           age = c(25, 30, 45)))
+```
+
+```
+##   id age
+## 1  1  25
+## 2  2  30
+## 3  3  45
+```
+
+```r
+(df_b = data.frame(id = 3:1,
+           wage = c(180, 250, 130)))
+```
+
+```
+##   id wage
+## 1  3  180
+## 2  2  250
+## 3  1  130
+```
+]
+.pull-right[
+
+```r
+cbind(df_a, df_b)
+```
+
+```
+##   id age id wage
+## 1  1  25  3  180
+## 2  2  30  2  250
+## 3  3  45  1  130
+```
+
+```r
+merge(df_a, df_b)
+```
+
+```
+##   id age wage
+## 1  1  25  130
+## 2  2  30  250
+## 3  3  45  180
+```
+]
+
+---
+
+## Type of [joins](https://www.dofactory.com/sql/join)
+&lt;img src = www/joins.png&gt;
     </textarea>
 <script src="../remark.js"></script>
 <script>var slideshow = remark.create({

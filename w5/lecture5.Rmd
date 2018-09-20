@@ -70,8 +70,8 @@ class: middle, inverse
 ---
 
 ## Rbind
-- bind rows
-- two tables of the same variables
+- glue rows of tables
+- two tables of the same variables (same columns)
 
 ```{r rbind_setup}
 (cars_a = cars[1:3,])
@@ -116,3 +116,28 @@ class: middle, inverse
 # Joins
 
 ---
+
+# Logic of joins
+- like excel's vlookup (svyhledat)
+- joins are based on index (key)
+
+.pull-left[
+```{r join_example_l}
+(df_a = data.frame(id = 1:3,
+           age = c(25, 30, 45)))
+(df_b = data.frame(id = 3:1,
+           wage = c(180, 250, 130)))
+
+```
+]
+.pull-right[
+```{r join_example_r}
+cbind(df_a, df_b)
+merge(df_a, df_b)
+```
+]
+
+---
+
+## Type of [joins](https://www.dofactory.com/sql/join)
+<img src = www/joins.png>
