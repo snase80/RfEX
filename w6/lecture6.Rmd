@@ -1,0 +1,135 @@
+---
+title: "Lecture 6"
+author: "Michal Kubišta"
+date: "2018/10/31"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    chakra: ../remark.js
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+## Structure
+- Conditionals
+- Functions
+- Loops & vectorisation
+```{r setup, include = FALSE}
+library(data.table)
+library(tidyverse)
+```
+
+---
+class: middle, inverse
+
+# Conditionals
+
+---
+
+class: middle, inverse
+
+# Functions
+
+---
+
+class: middle, inverse
+
+# Loops & vectorisation
+
+---
+
+## Doing operations again & again
+
+```{r loop_example}
+mtcars$mpg = as.numeric(mtcars$mpg)
+mtcars$cyl = as.numeric(mtcars$cyl)
+mtcars$disp = as.numeric(mtcars$disp)
+# dont
+```
+
+---
+
+## Loops
+- do the same thing with different input
+
+```{r loop_example2}
+cols = c("mpg", "cyl", "disp")
+
+for (i in cols) {
+    mtcars[,i] = as.numeric(mtcars[,i])
+}
+```
+
+---
+
+## Type of loops
+
+.pull-left[
+- **for loop**
+    - for every element, do
+```{r for_loop}
+for (i in 1:4) {
+    print(i)
+}
+```
+]
+.pull-right[
+- **while**
+    - while condition true, do something
+```{r while_loop}
+test = 8
+while (test < 10) {
+    print(test)
+    test = test + 1
+}
+```
+]
+
+---
+
+## Pros & Cons
+.pull-left[
+PRO
+- still better than code repetition
+- easy to comprehend
+]
+
+.pull-right[
+CON
+- TERRIBLE performance
+]
+
+--------------------------------------------   
+
+```{r loop_vec comparison}
+a = seq_len(100000000)
+system.time({
+    for (i in a) {
+        i^2
+    }
+})
+system.time({b = data.table::data.table(a)[, a^2]})
+```
+
+```{r cleanup, include = FALSE}
+rm(a, b)
+```
+
+---
+
+## So.....?
+- loops are useful for
+    - small number of repetitions
+    - when the number of repetitions is unknown (simulations)
+
+## For the rest there's vectorisation!
+- apply the function to each element
+- heavily optimised
+
+```{r vectorise}
+map_dbl(1:20, ~.x^2)
+map_dbl(1:20, sqrt)
+```
+
