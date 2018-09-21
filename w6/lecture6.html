@@ -31,11 +31,181 @@ class: middle, inverse
 
 ---
 
+## Control the flow
+- if-else structure
+
+
+```r
+weather = "rainy"
+
+if (weather == "sunny") {
+    print("Let's go outside")
+} else if (weather == "rainy") {
+    print("Let's program in R")
+} else {
+    print("Not enough information")
+}
+```
+
+```
+## [1] "Let's program in R"
+```
+
+---
+
 class: middle, inverse
 
 # Functions
 
 ---
+
+## Simplify the process
+- If you use the same code 3 times, write a function!
+
+
+```r
+select_activity = function(weather) {
+    if (weather == "sunny") {
+        print("Let's go outside")
+    } else if (weather == "rainy") {
+        print("Let's program in R")
+    } else {
+        print("Not enough information")
+    }
+}
+
+select_activity("rainy")
+```
+
+```
+## [1] "Let's program in R"
+```
+
+```r
+select_activity("The snow is falling, sell snow!")
+```
+
+```
+## [1] "Not enough information"
+```
+
+---
+
+## Functions running functions
+- build the stack of functions
+
+
+```r
+read_data = function(path2file) {
+    input = read_csv(path2file, col_types = "c")
+    input %&gt;% 
+        filter(....) %&gt;% 
+        mutate(....) %&gt;% 
+        return()
+}
+
+overview = function(data) {
+    print(head(data))
+    print(summary(data))
+}
+
+process = function(path2file) {
+    raw = read_data(path2file)
+    overview(raw)
+    return(raw)
+}
+```
+
+---
+
+## Arguments
+
+.pull-left[
+- default
+
+
+```r
+tester = function(num = 1) {
+    if (num == 1) { return(TRUE) }
+    else { return(FALSE) }
+}
+tester()
+```
+
+```
+## [1] TRUE
+```
+]
+.pull-right[
+- undefined arguments
+
+```r
+test = function(...){
+    args = list(...)
+    paste(args, collapse = "")
+}
+
+test(a = 5, b = "abcd")
+```
+
+```
+## [1] "5abcd"
+```
+]
+
+---
+## Scoping
+- when the same name doesn't point to the same variable
+
+
+```r
+a = 5
+my_func = function(a) {
+    print(a)
+    a = 9
+    print(a)
+}
+
+my_func(a = 7)
+```
+
+```
+## [1] 7
+## [1] 9
+```
+
+```r
+a
+```
+
+```
+## [1] 5
+```
+
+---
+
+## But why?
+
+
+```r
+print(environment())
+```
+
+```
+## &lt;environment: R_GlobalEnv&gt;
+```
+
+```r
+my_func = function() {print(environment())}
+my_func()
+```
+
+```
+## &lt;environment: 0x0000000012591d28&gt;
+```
+
+---
+
 
 class: middle, inverse
 
@@ -134,7 +304,7 @@ system.time({
 
 ```
 ##    user  system elapsed 
-##    3.76    0.00    3.76
+##    7.05    0.04   10.17
 ```
 
 ```r
@@ -143,7 +313,7 @@ system.time({b = data.table::data.table(a)[, a^2]})
 
 ```
 ##    user  system elapsed 
-##    0.46    0.12    0.58
+##    0.88    0.37    1.98
 ```
 
 
