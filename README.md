@@ -1,5 +1,8 @@
 # R for Econometrics
 Welcome to the lectures repository of R for Econometrics 2019 at CERGE-EI.
+
+[Q&A form](https://tinyurl.com/y7nqfm8z)
+
 The list of topics follows bellow:
 
 1. Introduction to RStudio, Git

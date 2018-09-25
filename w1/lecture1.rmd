@@ -14,7 +14,6 @@ output:
 ## Structure
 - Introduction & Course Overview
 - R & RStudio
-- Packages
 
 ---
 class: middle, inverse
@@ -25,9 +24,9 @@ class: middle, inverse
 
 ## About me
 - Michal Kubi&#353;ta
-- *Main focus:* European FMCG retail market
-- *Contact:* michal.kubista@nielsen.com
-- *Office hours:* upon prior arrangment 
+- **Main focus:** European FMCG retail market
+- **Contact:** michal.kubista@nielsen.com
+- **Office hours:** upon prior arrangment 
 - I'm bad with names ... *sorry*
 - <font color = "orange"><b>please include string "RfEX2019" in your email subject</b></font>
 
@@ -51,8 +50,8 @@ class: middle, inverse
     - each worth 25 points
 - <font color= "orange"><b>Conditions to pass</b></font>
 
-    - <font color= "orange"> at least 60p in total </font>
-    - <font color= "orange"> at least 60 % in 3 tests </font> 
+    - <font color= "orange"> at least 70p in total </font>
+    - <font color= "orange"> at least 60% in 3 tests </font> 
 
 ---
 class: middle, inverse
