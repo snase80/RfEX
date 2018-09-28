@@ -126,8 +126,11 @@ process = function(path2file) {
 
 ```r
 tester = function(num = 1) {
-    if (num == 1) { return(TRUE) }
-    else { return(FALSE) }
+    if (num == 1) { 
+        TRUE 
+    } else {
+        FALSE
+    }
 }
 tester()
 ```
@@ -142,18 +145,92 @@ tester()
 ```r
 test = function(...){
     args = list(...)
-    paste(args, collapse = "")
+    args
 }
 
 test(a = 5, b = "abcd")
 ```
 
 ```
-## [1] "5abcd"
+## $a
+## [1] 5
+## 
+## $b
+## [1] "abcd"
 ```
 ]
 
 ---
+
+## Returns
+
+
+```r
+rename = function(vec, names) {
+    names(vec) = names
+}
+
+rename(1:4, c("a","b","c","d"))
+```
+
+**no value is printed!**
+
+--
+
+
+```r
+rename = function(vec, names) {
+    names(vec) = names
+    return(vec)
+}
+
+rename(1:4, c("a","b","c","d"))
+```
+
+```
+## a b c d 
+## 1 2 3 4
+```
+
+---
+
+## Return stops execution!
+
+
+```r
+stopper = function(msg = "No message supplied") {
+    print(msg)
+    return(NULL)
+    print("This is not printed")
+}
+
+non_stopper = function(msg = "No message supplied") {
+    print(msg)
+    print("This is printed")
+}
+
+stopper()
+```
+
+```
+## [1] "No message supplied"
+```
+
+```
+## NULL
+```
+
+```r
+non_stopper()
+```
+
+```
+## [1] "No message supplied"
+## [1] "This is printed"
+```
+
+---
+
 ## Scoping
 - when the same name doesn't point to the same variable
 
@@ -201,7 +278,7 @@ my_func()
 ```
 
 ```
-## &lt;environment: 0x0000000012591d28&gt;
+## &lt;environment: 0x000000001113cd68&gt;
 ```
 
 ---
@@ -287,7 +364,7 @@ PRO
 
 .pull-right[
 CON
-- TERRIBLE performance
+- **TERRIBLE** performance
 ]
 
 --------------------------------------------   
@@ -304,7 +381,7 @@ system.time({
 
 ```
 ##    user  system elapsed 
-##    7.05    0.04   10.17
+##    7.28    0.11    9.55
 ```
 
 ```r
@@ -313,7 +390,7 @@ system.time({b = data.table::data.table(a)[, a^2]})
 
 ```
 ##    user  system elapsed 
-##    0.88    0.37    1.98
+##    1.20    0.57    2.69
 ```
 
 

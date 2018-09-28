@@ -105,8 +105,11 @@ process = function(path2file) {
 
 ```{r default_args}
 tester = function(num = 1) {
-    if (num == 1) { return(TRUE) }
-    else { return(FALSE) }
+    if (num == 1) { 
+        TRUE 
+    } else {
+        FALSE
+    }
 }
 tester()
 
@@ -117,7 +120,7 @@ tester()
 ```{r}
 test = function(...){
     args = list(...)
-    paste(args, collapse = "")
+    args
 }
 
 test(a = 5, b = "abcd")
@@ -125,6 +128,52 @@ test(a = 5, b = "abcd")
 ]
 
 ---
+
+## Returns
+
+```{r return}
+rename = function(vec, names) {
+    names(vec) = names
+}
+
+rename(1:4, c("a","b","c","d"))
+```
+
+**no value is printed!**
+
+--
+
+```{r return_2}
+rename = function(vec, names) {
+    names(vec) = names
+    return(vec)
+}
+
+rename(1:4, c("a","b","c","d"))
+```
+
+---
+
+## Return stops execution!
+
+```{r return_stop}
+stopper = function(msg = "No message supplied") {
+    print(msg)
+    return(NULL)
+    print("This is not printed")
+}
+
+non_stopper = function(msg = "No message supplied") {
+    print(msg)
+    print("This is printed")
+}
+
+stopper()
+non_stopper()
+```
+
+---
+
 ## Scoping
 - when the same name doesn't point to the same variable
 
@@ -219,7 +268,7 @@ PRO
 
 .pull-right[
 CON
-- TERRIBLE performance
+- **TERRIBLE** performance
 ]
 
 --------------------------------------------   
@@ -253,4 +302,3 @@ rm(a, b)
 map_dbl(1:20, ~.x^2)
 map_dbl(1:20, sqrt)
 ```
-
