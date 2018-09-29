@@ -109,9 +109,10 @@ aq %>%
 aq[1:5, 'Ozone']
 aq[1:5,] %>% 
     select(Ozone)
-# overrride with pull()
-# aq[1:5,] %>% 
-#     pull(Ozone)
+
+# overrride data.frame structure with pull()
+aq[1:5,] %>% 
+     pull(Ozone)
 ```
 
 ---
