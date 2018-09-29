@@ -17,7 +17,6 @@ output:
 - Functions
 - Loops & vectorisation
 ```{r setup, include = FALSE}
-library(data.table)
 library(tidyverse)
 ```
 
