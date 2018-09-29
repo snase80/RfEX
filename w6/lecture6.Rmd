@@ -1,6 +1,6 @@
 ---
 title: "Lecture 6"
-author: "Michal Kubišta"
+author: "Michal Kubi&#353;ta"
 date: "2018/10/31"
 output:
   xaringan::moon_reader:
