@@ -36,7 +36,8 @@ now$hour
 now$wday
 now$yday
 
-# 3.) FUN WITH CASTING
+
+# 3.) FUN WITH CASTING ----------------------------------------------------
 c(T, NA) # boolean
 c(T, NA, 1) # numeric
 c(F, 258) # numeric
@@ -76,7 +77,7 @@ diff(range(stocks$DAX))
 nrow(stocks) / 8
 
 ## Prepare the vectors
-days = rep(c(1:232,1:233), 4)
+days = rep(c(seq_len(232), seq_len(1:233)), 4)
 
 years = rep(1991:1998, each = 232)
 years = c(years, seq(1992, 1998, by = 2))
