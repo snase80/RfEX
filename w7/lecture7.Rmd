@@ -208,6 +208,8 @@ str_extract(c("ababcdab"),"(ab){2}")
 str_extract("abc123_ ?!<>","[:alnum:]*") # or [:alpha:] or [:digit:] only
 str_replace_all("abc123_ ?!","[:punct:]","X") # special characters
 str_extract("abc123_ ?!<>","[:space:]") # whitespace, newlines, ...
+str_replace("abc123_ ?!<>","\\s","XX") # special characters (whitespace in this case)
+
 ```
 
 ---
