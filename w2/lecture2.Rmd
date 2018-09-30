@@ -182,8 +182,8 @@ list(a = c(1:5))
 ## Lists cont.
 
 ```{r lists_cont}
-list(WTH = data.frame(NUM = 1:2, STR = c('a', 'b')),
-     OMG = matrix(1:12, ncol = 4))
+list(WT = data.frame(NUM = 1:2, STR = c('a', 'b')),
+     OM = matrix(1:12, ncol = 4))
 ```
 
 ---
