@@ -5,7 +5,6 @@ date: "2018/11/07"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    chakra: ../remark.js
     nature:
       highlightStyle: github
       highlightLines: true

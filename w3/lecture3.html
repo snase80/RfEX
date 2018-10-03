@@ -32,18 +32,18 @@ class: center, middle, inverse, title-slide
 - the easy and robust way
 
 ```
-## -- Attaching packages --------------------------------------------------------------------------------------- tidyverse 1.2.1 --
+## -- Attaching packages ----------------------- tidyverse 1.2.1 --
 ```
 
 ```
 ## &lt;U+221A&gt; ggplot2 2.2.1     &lt;U+221A&gt; purrr   0.2.4
-## &lt;U+221A&gt; tibble  1.4.2     &lt;U+221A&gt; dplyr   0.7.5
-## &lt;U+221A&gt; tidyr   0.8.1     &lt;U+221A&gt; stringr 1.3.1
+## &lt;U+221A&gt; tibble  1.4.2     &lt;U+221A&gt; dplyr   0.7.4
+## &lt;U+221A&gt; tidyr   0.8.0     &lt;U+221A&gt; stringr 1.3.1
 ## &lt;U+221A&gt; readr   1.1.1     &lt;U+221A&gt; forcats 0.3.0
 ```
 
 ```
-## -- Conflicts ------------------------------------------------------------------------------------------ tidyverse_conflicts() --
+## -- Conflicts -------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -257,9 +257,13 @@ aq[1:5,] %&gt;%
 ```
 
 ```r
-# overrride with pull()
-# aq[1:5,] %&gt;% 
-#     pull(Ozone)
+# overrride data.frame structure with pull()
+aq[1:5,] %&gt;% 
+     pull(Ozone)
+```
+
+```
+## [1] 41 36 12 18 NA
 ```
 
 ---
@@ -267,7 +271,7 @@ class: middle, inverse
 
 # Practise
     </textarea>
-<script src="../remark.js"></script>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
