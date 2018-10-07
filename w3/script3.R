@@ -73,25 +73,25 @@ diff(c(1,2,4))
 diff(range(stocks$DAX))
 
 # ADDING NEW (TIME) COLUMNS
-## Which values to add?
+    ## Which values to add?
 nrow(stocks) / 8
 
-## Prepare the vectors
+    ## Prepare the vectors
 days = rep(c(seq_len(232), seq_len(1:233)), 4)
 
 years = rep(1991:1998, each = 232)
 years = c(years, seq(1992, 1998, by = 2))
 years = sort(years)
 
-## Assign to the table
+    ## Assign to the table
 stocks$day = days # if the column exists, it will get overwritten
 stocks$year = years # if it doesn't exists, it will be created
 
 # SHOW ONLY DAX & FTSE FROM THE FIRST 10 DAYS OF EACH YEAR
-## The base way
+    ## The base way
 stocks[stocks$day < 11, c("day", "year", "DAX", "FTSE")]
 
-## The tidyverse way
+    ## The tidyverse way
 stocks %>% 
     filter(day < 10) %>% 
     select(day, year, DAX, FTSE)

@@ -49,7 +49,7 @@ games %<>%
     map_df(check_numeric)
 
 
-# WRITE BY YEAR FUNCTION ---------------------------------------------------
+# READ BY YEAR FUNCTION ---------------------------------------------------
 
 read_by_year = function(path, years) {
     files = list.files(path)
