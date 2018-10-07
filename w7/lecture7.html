@@ -437,6 +437,14 @@ str_extract("abc123_ ?!&lt;&gt;","[:space:]") # whitespace, newlines, ...
 ## [1] " "
 ```
 
+```r
+str_replace("abc123_ ?!&lt;&gt;","\\s","XX") # special characters (whitespace in this case)
+```
+
+```
+## [1] "abc123_XX?!&lt;&gt;"
+```
+
 ---
 
 ## Escaping characters
@@ -481,7 +489,7 @@ str_extract(files,"_[:alnum:]*\\.") %&gt;%
 ## [1] "2010" "2011" "2012" "2013" "2014"
 ```
     </textarea>
-<script src="../remark.js"></script>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,

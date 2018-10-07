@@ -278,7 +278,7 @@ my_func()
 ```
 
 ```
-## &lt;environment: 0x000000000e1011e0&gt;
+## &lt;environment: 0x000000000d3ecb10&gt;
 ```
 
 ---
@@ -381,7 +381,7 @@ system.time({
 
 ```
 ##    user  system elapsed 
-##    7.91    0.11   11.82
+##    3.77    0.01    3.98
 ```
 
 ```r
@@ -390,7 +390,7 @@ system.time({b = data.table::data.table(a)[, a^2]})
 
 ```
 ##    user  system elapsed 
-##    0.61    0.25    0.89
+##    0.55    0.21    0.75
 ```
 
 
@@ -426,7 +426,7 @@ map_dbl(1:20, sqrt)
 ## [15] 3.872983 4.000000 4.123106 4.242641 4.358899 4.472136
 ```
     </textarea>
-<script src="../remark.js"></script>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
