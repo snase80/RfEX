@@ -1,3 +1,5 @@
+library(magrittr)
+
 # 1.) FUN WITH FACTORS ----------------------------------------------------
 sample(c("3","1"), 20, replace = T)
 
@@ -24,11 +26,12 @@ levels(fac)
 levels(fac) = c("M", "F", "U")
 fac
 
-ordered(fac, c("U", "F", "M"))
+ordered(fac, c("U", "M", "F"))
 
 # 2.) FUN WITH DATETIMES --------------------------------------------------
 now = Sys.time() # value
 now %<>% as.POSIXlt() # list?
+now
 
 attributes(now) # special format
 
@@ -77,7 +80,7 @@ diff(range(stocks$DAX))
 nrow(stocks) / 8
 
     ## Prepare the vectors
-days = rep(c(seq_len(232), seq_len(1:233)), 4)
+days = rep(c(seq_len(232), seq_len(233)), 4)
 
 years = rep(1991:1998, each = 232)
 years = c(years, seq(1992, 1998, by = 2))
@@ -100,3 +103,19 @@ stocks %>%
 #        first 5 days of even years
 #        first 10 days of odd years
 
+# OTHER WAYS OF SELECT SPECIFICATION
+    ## A range of columns
+colnames(stocks)
+stocks %>% 
+    select(DAX:CAC) %>% 
+    head()
+
+    ## Exclude column
+stocks %>% 
+    select(-year) %>% 
+    head()
+
+    ## Exclude a range of columns
+stocks %>% 
+    select(-SMI:-year) %>% 
+    head()
