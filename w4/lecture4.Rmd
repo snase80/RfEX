@@ -31,7 +31,7 @@ class: middle, inverse
 ---
 
 ## Mutation
-- ading new or changing existing columns
+- adding a new or changing existing columns
 ```{r mutate}
 econ =
     readxl::read_excel("data/econmap.xlsx", 1) %>%
@@ -91,5 +91,6 @@ econ %>%
     group_by(region, year) %>% 
     summarise(pop = mean(population),
               labor = mean(labor_force)) %>% 
-    mutate(active = labor / pop)
+    ungroup() %>% 
+    mutate(active = labor / pop) 
 ```
