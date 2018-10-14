@@ -31,6 +31,7 @@ ordered(fac, c("U", "M", "F"))
 # 2.) FUN WITH DATETIMES --------------------------------------------------
 now = Sys.time() # value
 now %<>% as.POSIXlt() # list?
+now = now %>% as.POSIXlt() # equivalent to previous line
 now
 
 attributes(now) # special format
@@ -72,7 +73,7 @@ summary(stocks)
 # RANGE OF DAX CLOSING VALUES
 range(stocks$DAX)
 
-diff(c(1,2,4))
+diff(c(1,5,11))
 diff(range(stocks$DAX))
 
 # ADDING NEW (TIME) COLUMNS
@@ -92,16 +93,20 @@ stocks$year = years # if it doesn't exists, it will be created
 
 # SHOW ONLY DAX & FTSE FROM THE FIRST 10 DAYS OF EACH YEAR
     ## The base way
-stocks[stocks$day < 11, c("day", "year", "DAX", "FTSE")]
+stocks[stocks$day < 11,
+       c("day", "year", "DAX", "FTSE")]
 
     ## The tidyverse way
 stocks %>% 
-    filter(day < 10) %>% 
+    filter(day <= 10) %>% 
     select(day, year, DAX, FTSE)
 
 # SHOW ONLY SMI & CAC FOR FOLLOWING TIMES (IN ONE TABLE):
 #        first 5 days of even years
 #        first 10 days of odd years
+stocks %>% 
+    select(day, year, SWMI, CAC) %>%
+    filter(year %% 2 == 0 & | year %% 2 == 1 &)
 
 # OTHER WAYS OF SELECT SPECIFICATION
     ## A range of columns
