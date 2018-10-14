@@ -69,7 +69,12 @@ rm(na_rem, lines_person, connect_person, corpus)
 # original at:
 # https://toolbox.google.com/datasetsearch/search?query=sales&docid=5kapgBB5IYEGaNZVAAAAAA%3D%3D
 # but I did some preprocessing
-liquor = read_csv("w8/data/liquor_sales.csv")
+
+list.files("w8/data")
+zipped = unzip("w8/data/liquor_sales.zip", list = TRUE)
+
+liquor <- read_csv(unz("w8/data/liquor_sales.zip", zipped$Name),
+                  col_types = paste0(rep("c", 24), collapse = "")) # safer way
 
 summary(liquor)
 head(liquor, 100) %>% View()
