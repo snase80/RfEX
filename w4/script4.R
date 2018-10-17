@@ -24,7 +24,7 @@ head(csv)
 # looks like csv, but has different separators:
 #       columns separated by semicolon ';'
 #       decimals separated by comma ','
-csv2 = read_csv("w4/data/london_2014-05.csv2")
+csv2 = read_csv2("w4/data/london_2014-05.csv2")
 head(csv2)
 
 
@@ -42,6 +42,7 @@ library(jsonlite)
 json = read_file("w4/data/fiscal2017.json")
 json = fromJSON(json)
 
+json$data %>% View()
 
 # ANY TABULAR FLATFILE ----------------------------------------------------
 # any flatfile with rigid separators
