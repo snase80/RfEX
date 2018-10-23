@@ -8,6 +8,7 @@ library(tidyverse)
 list.files("w5/data/")
 
 zipped = unzip("w5/data/ym_2018.csv.zip", list = TRUE)
+zipped
 
 japan <- read_csv(unz("w5/data/ym_2018.csv.zip", zipped$Name),
                   col_types = paste0(rep("c", 13), collapse = ""))
@@ -67,6 +68,7 @@ countries = read_csv("w5/data/country_eng.csv", col_types = "ccc")
 head(countries)
 colnames(countries) %<>% tolower()
 
+
 h2 = read_csv("w5/data/hs2_eng.csv")
 head(h2)
 
@@ -80,9 +82,10 @@ EI_out %>%
     full_join(countries) %>% View()
 
 EI_out %>% 
-    left_join(countries)
+    left_join(countries) %>% View()
 
 # & add commodity description
 EI_out %>% 
     left_join(countries, by = c("country" = "country")) %>% 
-    inner_join(h2)
+    inner_join(h2) %>% 
+    View()
