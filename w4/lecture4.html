@@ -36,7 +36,7 @@ class: middle, inverse
 ---
 
 ## Mutation
-- ading new or changing existing columns
+- adding a new or changing existing columns
 
 ```r
 econ =
@@ -163,12 +163,12 @@ econ %&gt;%
     group_by(region, year) %&gt;% 
     summarise(pop = mean(population),
               labor = mean(labor_force)) %&gt;% 
-    mutate(active = labor / pop)
+    ungroup() %&gt;% 
+    mutate(active = labor / pop) 
 ```
 
 ```
 ## # A tibble: 242 x 5
-## # Groups:   region [2]
 ##    region  year    pop labor active
 ##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 ##  1 Afghan  1980 13180. 4115.  0.312
