@@ -107,18 +107,19 @@ games_lm$coef =
 games_lm %>% 
     select(year, coef, Estimate) %>% 
     filter(year > 1994) %>% 
-    spread(coef, Estimate)
+    spread(coef, Estimate) %>% View()
 
 games %>% 
     drop_na() %>% 
     filter(Year_of_Release > 1994) %>% 
     group_by(Year_of_Release) %>% 
     summarise(critics = min(Critic_Score, na.rm = T),
-              users = min(User_Score, na.rm = T))
+              users = min(User_Score, na.rm = T)) %>% View()
 
 # SAVE BY YEAR ------------------------------------------------------------
 # dir.create("w6/data/yearly")
 
+# split(games, games$Year_of_Release) %>% 
 games %>% 
     split(.$Year_of_Release) %>% 
     map(., ~write_csv(.x,
