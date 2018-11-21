@@ -17,6 +17,8 @@ header = romeo[4:28]
 corpus = romeo[-1:-32]
 rm(first_line, romeo)
 
+# FIND THE LINES OF EVERY PERSON IN THE BOOK ----------------------------------
+
 # define person names
 persons = 
     header %>% 
@@ -73,7 +75,7 @@ rm(na_rem, lines_person, connect_person, corpus)
 list.files("w8/data")
 zipped = unzip("w8/data/liquor_sales.zip", list = TRUE)
 
-liquor <- read_csv(unz("w8/data/liquor_sales.zip", zipped$Name),
+liquor = read_csv(unz("w8/data/liquor_sales.zip", zipped$Name),
                   col_types = paste0(rep("c", 24), collapse = "")) # safer way
 
 summary(liquor)
@@ -100,8 +102,8 @@ to_num = function(x) {
 }
 
 liquor %<>% 
-    mutate_at(num_names, to_num) %>% 
-    select_at(num_names)
+    mutate_at(num_names, to_num)
+
 rm(char_names, num_names, to_num)
 
 map_chr(liquor, class)
@@ -111,14 +113,18 @@ liquor %<>%
 
 summary(liquor)
 
+# do the sales make sense?
 liquor %>% 
     mutate(sales_test = `State Bottle Retail`*`Bottles Sold` - `Sale (Dollars)`) %>% 
     pull(sales_test) %>% 
     summary()
 
+# lets check GPS
 liquor %<>% 
-    mutate(gps = str_extract(`Store Location`,"[0-9]{2}\\.[0-9]{1,6}, \\-[0-9]{2}\\.[0-9]{1,6}"))
+    mutate(gps = str_extract(`Store Location`,
+                             "[0-9]{2}\\.[0-9]{1,6}, \\-[0-9]{2}\\.[0-9]{1,6}"))
 
+# where GPS wanst extracted?
 liquor %>% 
     pull(gps) %>% 
     is.na() %>% 
