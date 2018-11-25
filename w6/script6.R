@@ -18,7 +18,8 @@ for (i in files) {
 }
 
 # vectorised
-games = map_df(files, ~read_csv(.x, col_types = cols(.default = "c")))
+games = map_df(files,
+               ~read_csv(.x, col_types = cols(.default = "c")))
 
 
 # PARSE NUMERIC FEATURES --------------------------------------------------
@@ -64,6 +65,7 @@ read_by_year = function(path, years) {
               )
 
             } else if (year != "all") {
+            } else {
         stop("Please specify years as numeric or character vector, or use 'all' to use all files")
     } # WHAT IS WRONG WITH THIS?
     
@@ -105,18 +107,19 @@ games_lm$coef =
 games_lm %>% 
     select(year, coef, Estimate) %>% 
     filter(year > 1994) %>% 
-    spread(coef, Estimate)
+    spread(coef, Estimate) %>% View()
 
 games %>% 
     drop_na() %>% 
     filter(Year_of_Release > 1994) %>% 
     group_by(Year_of_Release) %>% 
     summarise(critics = min(Critic_Score, na.rm = T),
-              users = min(User_Score, na.rm = T))
+              users = min(User_Score, na.rm = T)) %>% View()
 
 # SAVE BY YEAR ------------------------------------------------------------
 # dir.create("w6/data/yearly")
 
+# split(games, games$Year_of_Release) %>% 
 games %>% 
     split(.$Year_of_Release) %>% 
     map(., ~write_csv(.x,

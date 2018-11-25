@@ -168,7 +168,7 @@ str_remove("abcd", "a") # gsub
 #"." any character
 str_replace("abcd_e",".","g")
 # "*" any number of times
-str_extract("abc_","_.*")
+str_extract("abc_de","_.*")
 # "?" at most once
 str_extract("abc_de","_.?")
 # "+" at least once
