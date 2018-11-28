@@ -2,7 +2,7 @@ library(tidyverse)
 
 econ = readxl::read_xlsx("w4/data/econmap.xlsx", 1)
 
-# HISTOGRAM ---------------------------------------------------------------
+# HISTOGRAM -------------------------------------------------------------------
 econ %>%
     filter(name == "Azerbaijan") %>% 
     pull(population) %>% 
@@ -11,9 +11,9 @@ econ %>%
 econ %>%
     filter(name == "Azerbaijan") %>% 
     pull(gdp_cap) %>% 
-    hist(population = 25)
+    hist(breaks = 25)
 
-# BOXPLOT -----------------------------------------------------------------
+# BOXPLOT ---------------------------------------------------------------------
 econ %>%
     filter(name == "Azerbaijan") %>% 
     pull(population) %>% 
@@ -38,7 +38,7 @@ econ %>%
 
 par(mfrow = c(1,1))
 
-# SCATTER PLOT ------------------------------------------------------------
+# SCATTER PLOT ----------------------------------------------------------------
 econ %>% 
     filter(name == "Bangladesh") %>% 
     {plot(x = .$year, y = .$gdp_05)}
@@ -47,9 +47,9 @@ econ %>%
     filter(name == "Bangladesh") %>% 
     {plot(x = .$year, y = .$gdp_05, type = "l")}
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-########### GGPLOT2 ###########
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### GGPLOT2 ########### -----------------------------------------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 library(ggplot2)
 
 econ %>% 
@@ -57,7 +57,8 @@ econ %>%
     geom_line() +
     geom_point(size = 1)
 
-# BAD
+# COMPARING TRENDS ------------------------------------------------------------
+## UGLY
 econ %>% 
     filter(name == "Afghanistan", year < 2018) %>% 
     
@@ -65,7 +66,7 @@ econ %>%
     geom_line() +
     geom_line(aes(y = gdp_05))
 
-# UGLY
+## BAD
 econ %>% 
     filter(name == "Afghanistan", year < 2018) %>% 
     select(name, year, population, gdp_05) %>% 
@@ -74,13 +75,14 @@ econ %>%
     ggplot(aes(year, value, color = metric)) + 
     geom_line()
 
+## BUT !!!
 econ %>% 
     filter(name == "Afghanistan", year < 2018) %>% 
     
     ggplot(aes(year, gdp_05)) + 
     geom_line()
 
-# GOOD
+## GOOD
 econ %>% 
     filter(name == "Afghanistan", year < 2018) %>% 
     select(name, year, population, gdp_05) %>% 
@@ -91,4 +93,45 @@ econ %>%
     ggplot(aes(year, value, color = metric)) + 
     geom_line()
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### ECONOMETRICS  ########### -----------------------------------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+econ %>% 
+    select(year, labor_force, savings_rate, population, gdp_cap) %>% 
+    GGally::ggpairs()
 
+## linear model
+solow = 
+    econ %>% 
+    drop_na() %>% 
+    {lm(gdp_cap ~ year + labor_force + savings_rate + population, .)}
+summary(solow)
+
+    ### or if you feel like it
+X = econ %>% 
+    drop_na() %>% 
+    select(year, labor_force, savings_rate, population) %>% 
+    mutate(int = 1) %>% 
+    as.matrix()
+
+Y = econ %>% 
+    drop_na() %>%
+    select(gdp_cap) %>% 
+    as.matrix()
+
+beta = solve(t(X) %*% X) %*% t(X) %*% Y
+
+## check your residuals
+lm(disp ~ ., mtcars) %>% plot()
+plot(solow)
+
+## test your model
+    ### F-test
+var.test(solow, lm(gdp_cap ~ year + labor_force, econ))
+
+    ### RESET
+library(lmtest)
+reset(solow)
+
+    ### Breusch-Pagan
+bptest(solow)

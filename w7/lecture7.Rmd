@@ -195,7 +195,7 @@ str_extract(c("abc","cd"),"ab|c")
 str_extract("aaaabcde","a{1,3}")
 str_extract("aaaacde","a{2,}")
 # "[]" set of possibilities
-str_extract(c("aabcde"),"[ab]{2}")
+str_extract(c("aabcde"),"[ab]{3}")
 # "()" glue characters
 str_extract(c("ababcdab"),"(ab){2}")
 ```
